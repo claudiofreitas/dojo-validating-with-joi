@@ -17,24 +17,9 @@ export type Pokemon = {
 export default class PokemonValidator {
   validateBody(body: any): Pokemon {
     // Stub
-    const schema = Joi.object().keys({
-      id: Joi.number()
-        .valid(1, 4, 7)
-        .messages({
-          'any.only':
-            'The only Pokemon available are Bulbasaur, Squirtle and Charmander',
-        })
-        .required(),
+    const schema = Joi.any();
 
-      nickname: Joi.string().max(16).trim().optional(),
-
-      height: Joi.number().required(),
-    });
-
-    const validationResult = schema.validate(body, {
-      abortEarly: false,
-      errors: { wrap: { label: false } },
-    });
+    const validationResult = schema.validate(body, { abortEarly: false });
     if (validationResult.error) {
       // console.log(validationResult.error.details);
       const validationError = new MyValidationError(
@@ -43,17 +28,6 @@ export default class PokemonValidator {
       throw validationError;
     }
 
-    const id = validationResult.value.id;
-    const name = POKEMON_NAMES_MAP[id];
-    const nickname = validationResult.value.nickname;
-    const height = validationResult.value.height;
-    const pokemon: Pokemon = {
-      id,
-      name,
-      nickname: nickname ?? name,
-      height,
-    };
-
-    return pokemon;
+    return validationResult.value;
   }
 }

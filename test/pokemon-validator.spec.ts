@@ -15,47 +15,6 @@ describe('validateBody', () => {
     };
   }
 
-  it('should validate and return a Pokemon', () => {
-    // Given
-    const body = {
-      id: 1,
-      nickname: 'Bubu   ',
-      height: 1.5,
-    };
-
-    // When
-    const actualPokemon = validator.validateBody(body);
-
-    // Then
-    let expectedPokemon: Pokemon = {
-      id: 1,
-      name: 'Bulbasaur',
-      nickname: 'Bubu',
-      height: 1.5,
-    };
-    expect(actualPokemon).toStrictEqual(expectedPokemon);
-  });
-
-  it('should validate and return a Pokemon with the default nickname when empty', () => {
-    // Given
-    const body = {
-      id: 4,
-      height: 1.7,
-    };
-
-    // When
-    const actualPokemon = validator.validateBody(body);
-
-    // Then
-    let expectedPokemon: Pokemon = {
-      id: 4,
-      name: 'Charmander',
-      nickname: 'Charmander',
-      height: 1.7,
-    };
-    expect(actualPokemon).toStrictEqual(expectedPokemon);
-  });
-
   it('should not validate for id different than 1, 4 or 7', () => {
     // Given
     const body = createValidBody();
@@ -78,7 +37,7 @@ describe('validateBody', () => {
     }
   });
 
-  it('should not validate for nickname longer than 16 characters', () => {
+  it.skip('should not validate for nickname longer than 16 characters', () => {
     // Given
     const body = createValidBody();
     body.nickname = 'Super Powerful Charchar';
@@ -100,7 +59,7 @@ describe('validateBody', () => {
     }
   });
 
-  it('should not validate for absent id', () => {
+  it.skip('should not validate for absent id', () => {
     // Given
     const body = createValidBody();
     // @ts-ignore
@@ -122,7 +81,7 @@ describe('validateBody', () => {
     }
   });
 
-  it('should not validate for absent height', () => {
+  it.skip('should not validate for absent height', () => {
     // Given
     const body = createValidBody();
     // @ts-ignore
@@ -142,5 +101,46 @@ describe('validateBody', () => {
       expect(error).toHaveProperty('errors');
       expect(error.errors).toMatchObject(expectedErrors);
     }
+  });
+
+  it.skip('should validate and return a Pokemon', () => {
+    // Given
+    const body = {
+      id: 1,
+      nickname: 'Bubu   ',
+      height: 1.5,
+    };
+
+    // When
+    const actualPokemon = validator.validateBody(body);
+
+    // Then
+    let expectedPokemon: Pokemon = {
+      id: 1,
+      name: 'Bulbasaur',
+      nickname: 'Bubu',
+      height: 1.5,
+    };
+    expect(actualPokemon).toStrictEqual(expectedPokemon);
+  });
+
+  it.skip('should validate and return a Pokemon with the default nickname when empty', () => {
+    // Given
+    const body = {
+      id: 4,
+      height: 1.7,
+    };
+
+    // When
+    const actualPokemon = validator.validateBody(body);
+
+    // Then
+    let expectedPokemon: Pokemon = {
+      id: 4,
+      name: 'Charmander',
+      nickname: 'Charmander',
+      height: 1.7,
+    };
+    expect(actualPokemon).toStrictEqual(expectedPokemon);
   });
 });
